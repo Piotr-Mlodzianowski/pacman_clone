@@ -28,11 +28,13 @@ class Boundary {
 
 // dla znaku "-" stwórz boundry
 const map = [
-    ["-", "-", "-", "-", "-", "-"],
-    ["-", " ", " ", " ", " ", "-"],
-    ["-", " ", "-", "-", " ", "-"],
-    ["-", " ", " ", " ", " ", "-"],
-    ["-", "-", "-", "-", "-", "-"]
+    ["-", "-", "-", "-", "-", "-", "-"],
+    ["-", " ", " ", " ", " ", " ", "-"],
+    ["-", " ", "-", "", "-", " ", "-"],
+    ["-", " ", " ", " ", " ", " ", "-"],
+    ["-", " ", "-", " ", "-", " ", "-"],
+    ["-", " ", " ", " ", " ", " ", "-"],
+    ["-", "-", "-", "-", "-", "-", "-"]
 ];
 
 const boundaries = [];
@@ -96,51 +98,181 @@ player.draw();
 
 // ruch bohaterem
 
+function circleCollidesWithRectangle({circle, rectangle}) {
+    return (
+        circle.position.y - circle.radius + circle.velocity.y <= rectangle.position.y + rectangle.height && 
+            circle.position.x + circle.radius + circle.velocity.x >= rectangle.position.x &&
+            circle.position.y + circle.radius + circle.velocity.y >= rectangle.position.y &&
+            circle.position.x - circle.radius + circle.velocity.x <= rectangle.position.x + rectangle.width
+    )
+}
+
+
+const keys = {
+    w: {
+        pressed: false
+    },
+    a: {
+        pressed: false
+    },
+    s: {
+        pressed: false
+    },
+    d: {
+        pressed: false
+    }
+}
+
 
 //event listener troche inny kod od tutoriala, zmienione objekt key na e oraz dodano preventDefault;
 window.addEventListener("keydown", (e) => {
     switch (e.key) {
         case "w": 
-        player.velocity.y = -5;
-        player.velocity.x = 0;
+        keys.w.pressed = true;
+        lastKey = "w";
         e.preventDefault();
         break;
 
         case "a": 
-        player.velocity.x = -5;
-        player.velocity.y = 0;
+        keys.a.pressed = true;
+        lastKey = "a";
         e.preventDefault();
         break;
 
         case "s": 
-        player.velocity.y = 5;
-        player.velocity.x = 0;
+        keys.s.pressed = true;
+        lastKey = "s";
         e.preventDefault();
         break;
 
         case "d": 
-        player.velocity.x = 5;
-        player.velocity.y = 0;
+        keys.d.pressed = true;
+        lastKey = "d";
         e.preventDefault();
         break;
     }
 })
+
+window.addEventListener("keyup", ({key}) => {
+    switch (key) {
+        case "w": 
+        keys.w.pressed = false;
+        e.preventDefault();
+        break;
+
+        case "a": 
+        keys.a.pressed = false;
+        e.preventDefault();
+        break;
+
+        case "s": 
+        keys.s.pressed = false;
+        e.preventDefault();
+        break;
+
+        case "d": 
+        keys.d.pressed = false;
+        e.preventDefault();
+        break;
+    }
+});
+
+let lastKey = "";
 
 // animacja bohatera
 
 function animate() {
     requestAnimationFrame(animate); //metoda objektu window
     c.clearRect(0, 0, canvas.width, canvas.height); // metoda czyści canvas przy każdej klatce animacji (0 to początkowa pozycja x oraz y, czościmy całą wysokość i całą szerokość canvas)
+
+    if (keys.w.pressed && lastKey === "w") {
+        for (let i=0; i , i < boundaries.length; i++) {
+            const boundary = boundaries[i]
+            if (circleCollidesWithRectangle({
+                circle: {...player,
+                    velocity: {
+                        x: 0,
+                        y: -5
+                    }
+                },
+                rectangle: boundary
+            }) 
+               ) {
+                player.velocity.y = 0;
+                break;
+                } else {
+                    player.velocity.y = -5;
+                }
+            }
+    } else if (keys.a.pressed && lastKey === "a") {
+        for (let i=0; i , i < boundaries.length; i++) {
+            const boundary = boundaries[i]
+            if (circleCollidesWithRectangle({
+                circle: {...player,
+                    velocity: {
+                        x: -5,
+                        y: 0
+                    }
+                },
+                rectangle: boundary
+            }) 
+               ) {
+                player.velocity.x = 0;
+                break;
+                } else {
+                    player.velocity.x = -5;
+                }
+            }
+    } else if (keys.s.pressed && lastKey === "s") {
+        for (let i=0; i , i < boundaries.length; i++) {
+            const boundary = boundaries[i]
+            if (circleCollidesWithRectangle({
+                circle: {...player,
+                    velocity: {
+                        x: 0,
+                        y: 5
+                    }
+                },
+                rectangle: boundary
+            }) 
+               ) {
+                player.velocity.y = 0;
+                break;
+                } else {
+                    player.velocity.y = 5;
+                }
+            }
+    } else if (keys.d.pressed && lastKey === "d") {
+        for (let i=0; i , i < boundaries.length; i++) {
+            const boundary = boundaries[i]
+            if (circleCollidesWithRectangle({
+                circle: {...player,
+                    velocity: {
+                        x: 5,
+                        y: 0
+                    }
+                },
+                rectangle: boundary
+            }) 
+               ) {
+                player.velocity.x = 0;
+                break;
+                } else {
+                    player.velocity.x = 5;
+                }
+            }
+    }
+
     boundaries.forEach((boundary) => {
         boundary.draw()
 
         // wykrywanie kolizji
         //player.position.y - player.radius wyznacza górę bohatera
         //boundary.position.y + boundary.height wyznacza dół boundary
-        if (player.position.y - player.radius + player.velocity.y <= boundary.position.y + boundary.height && 
-            player.position.x + player.radius + player.velocity.x >= boundary.position.x &&
-            player.position.y + player.radius + player.velocity.y >= boundary.position.y &&
-            player.position.x - player.radius + player.velocity.x <= boundary.position.x + boundary.width) {
+        if (circleCollidesWithRectangle({
+            circle: player, 
+            rectangle: boundary})
+            ) {
                 player.velocity.x = 0;
                 player.velocity.y = 0;
             }
