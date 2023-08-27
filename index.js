@@ -53,9 +53,7 @@ row.forEach((symbol, symbolIndex) => {
 })
 })
 
-boundaries.forEach((boundary) => {
-    boundary.draw();
-})
+
 
 
 
@@ -79,7 +77,7 @@ class Player {
     update() {
         this.draw();
         this.position.x += this.velocity.x;  // nowa wartość pozycji x powiekszona o velocity po naciśnięciu przycisku
-        this.position.y += yhis.velocity.y;
+        this.position.y += this.velocity.y;
     }
 }
 
@@ -98,23 +96,41 @@ player.draw();
 
 // ruch bohaterem
 
-window.addEventListener("keydown", ({key}) => {
-    switch (key) {
+//event listener troche inny kod od tutoriala, zmienione objekt key na e oraz dodano preventDefault;
+window.addEventListener("keydown", (e) => {
+    switch (e.key) {
         case "w": 
         player.velocity.y = -5
+        e.preventDefault();
         break;
 
         case "a": 
         player.velocity.x = -5
+        e.preventDefault();
         break;
 
         case "s": 
         player.velocity.y = 5
+        e.preventDefault();
         break;
 
         case "d": 
         player.velocity.x = 5
+        e.preventDefault();
         break;
     }
 })
 
+// animacja bohatera
+
+function animate() {
+    requestAnimationFrame(animate); //metoda objektu window
+    c.clearRect(0, 0, canvas.width, canvas.height); // metoda czyści canvas przy każdej klatce animacji (0 to początkowa pozycja x oraz y, czościmy całą wysokość i całą szerokość canvas)
+    boundaries.forEach((boundary) => {
+        boundary.draw();
+    }) ;
+
+    player.update();
+}
+
+animate();
