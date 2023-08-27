@@ -96,26 +96,31 @@ player.draw();
 
 // ruch bohaterem
 
+
 //event listener troche inny kod od tutoriala, zmienione objekt key na e oraz dodano preventDefault;
 window.addEventListener("keydown", (e) => {
     switch (e.key) {
         case "w": 
         player.velocity.y = -5
+        player.velocity.x = 0
         e.preventDefault();
         break;
 
         case "a": 
         player.velocity.x = -5
+        player.velocity.y = 0
         e.preventDefault();
         break;
 
         case "s": 
         player.velocity.y = 5
+        player.velocity.x = 0
         e.preventDefault();
         break;
 
         case "d": 
         player.velocity.x = 5
+        player.velocity.y = 0
         e.preventDefault();
         break;
     }
