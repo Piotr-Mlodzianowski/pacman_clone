@@ -101,26 +101,26 @@ player.draw();
 window.addEventListener("keydown", (e) => {
     switch (e.key) {
         case "w": 
-        player.velocity.y = -5
-        player.velocity.x = 0
+        player.velocity.y = -5;
+        player.velocity.x = 0;
         e.preventDefault();
         break;
 
         case "a": 
-        player.velocity.x = -5
-        player.velocity.y = 0
+        player.velocity.x = -5;
+        player.velocity.y = 0;
         e.preventDefault();
         break;
 
         case "s": 
-        player.velocity.y = 5
-        player.velocity.x = 0
+        player.velocity.y = 5;
+        player.velocity.x = 0;
         e.preventDefault();
         break;
 
         case "d": 
-        player.velocity.x = 5
-        player.velocity.y = 0
+        player.velocity.x = 5;
+        player.velocity.y = 0;
         e.preventDefault();
         break;
     }
@@ -132,10 +132,23 @@ function animate() {
     requestAnimationFrame(animate); //metoda objektu window
     c.clearRect(0, 0, canvas.width, canvas.height); // metoda czyści canvas przy każdej klatce animacji (0 to początkowa pozycja x oraz y, czościmy całą wysokość i całą szerokość canvas)
     boundaries.forEach((boundary) => {
-        boundary.draw();
-    }) ;
+        boundary.draw()
+
+        // wykrywanie kolizji
+        //player.position.y - player.radius wyznacza górę bohatera
+        //boundary.position.y + boundary.height wyznacza dół boundary
+        if (player.position.y - player.radius + player.velocity.y <= boundary.position.y + boundary.height && 
+            player.position.x + player.radius + player.velocity.x >= boundary.position.x &&
+            player.position.y + player.radius + player.velocity.y >= boundary.position.y &&
+            player.position.x - player.radius + player.velocity.x <= boundary.position.x + boundary.width) {
+                player.velocity.x = 0;
+                player.velocity.y = 0;
+            }
+    });
 
     player.update();
 }
 
 animate();
+
+
