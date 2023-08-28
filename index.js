@@ -2,9 +2,12 @@ const canvas = document.querySelector(".mainCanv");
 const c = canvas.getContext("2d"); // CanvasRenderingContext2D
 // wszystko co będzie wykonywane na zmiennej c to methody wbudowane w canvas
 
+
 // CSS widzi canvas jako img przez co nie styluje go poprawnie
 canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;
+
+
 
 
 console.log(canvas);
@@ -13,44 +16,132 @@ console.log(c);
 class Boundary {
     static width = 40;
     static height = 40;
-    constructor({position}) {
+    constructor({position, image}) {
         this.position = position;
         this.width = 40;
         this.height = 40;
+        this.image = image; // obrazy rur zamiast rysowania kwadratów
     }
 
     // funkcja rysująca boundry
     draw() {
-        c.fillStyle = "blue"
-        c.fillRect(this.position.x, this.position.y, this.width, this.height);
+        //c.fillStyle = "blue"
+        //c.fillRect(this.position.x, this.position.y, this.width, this.height);
+
+        c.drawImage(this.image, this.position.x, this.position.y)
     }
 }
 
-// dla znaku "-" stwórz boundry
+// dla znaku "-, |, 1, 2, 3, 4, b" stwórz boundry
 const map = [
-    ["-", "-", "-", "-", "-", "-", "-"],
-    ["-", " ", " ", " ", " ", " ", "-"],
-    ["-", " ", "-", "", "-", " ", "-"],
-    ["-", " ", " ", " ", " ", " ", "-"],
-    ["-", " ", "-", " ", "-", " ", "-"],
-    ["-", " ", " ", " ", " ", " ", "-"],
-    ["-", "-", "-", "-", "-", "-", "-"]
+    ["1", "-", "-", "-", "-", "-", "2"],
+    ["|", " ", " ", " ", " ", " ", "|"],
+    ["|", " ", "b", " ", "b", " ", "|"],
+    ["|", " ", " ", " ", " ", " ", "|"],
+    ["|", " ", "b", " ", "b", " ", "|"],
+    ["|", " ", " ", " ", " ", " ", "|"],
+    ["4", "-", "-", "-", "-", "-", "3"]
 ];
 
 const boundaries = [];
+
+
+function createImage(src) {
+    const image = new Image()
+    image.src = src
+    return image
+}
+
+// objekt Image dla obrazu poziomej rury
+//const image = new Image();
+//image.src = "./img/pipeHorizontal.png"
 
 map.forEach((row, rowIndex) => {
 row.forEach((symbol, symbolIndex) => {
     switch (symbol) {
         case "-": 
-        boundaries.push(new Boundary({
+        boundaries.push(
+            new Boundary({
             position: {
                 x: Boundary.width * symbolIndex,
                 y: Boundary.height * rowIndex //pozycja y mnożona jest przez index, aby stworzyć nowy boundary pod poprzednim
-            }
+            },
+            image: createImage("./img/pipeHorizontal.png") // przekazujemy obraz rury
         })
         );
-            break
+            break;
+
+            case "|": 
+            boundaries.push(
+                new Boundary({
+                position: {
+                    x: Boundary.width * symbolIndex,
+                    y: Boundary.height * rowIndex //pozycja y mnożona jest przez index, aby stworzyć nowy boundary pod poprzednim
+                },
+                image: createImage("./img/pipeVertical.png") // przekazujemy obraz rury
+            })
+            );
+                break
+
+                case "1": 
+            boundaries.push(
+                new Boundary({
+                position: {
+                    x: Boundary.width * symbolIndex,
+                    y: Boundary.height * rowIndex //pozycja y mnożona jest przez index, aby stworzyć nowy boundary pod poprzednim
+                },
+                image: createImage("./img/pipeCorner1.png") // przekazujemy obraz rury
+            })
+            );
+                break
+
+                case "2": 
+            boundaries.push(
+                new Boundary({
+                position: {
+                    x: Boundary.width * symbolIndex,
+                    y: Boundary.height * rowIndex //pozycja y mnożona jest przez index, aby stworzyć nowy boundary pod poprzednim
+                },
+                image: createImage("./img/pipeCorner2.png") // przekazujemy obraz rury
+            })
+            );
+                break
+
+                case "3": 
+            boundaries.push(
+                new Boundary({
+                position: {
+                    x: Boundary.width * symbolIndex,
+                    y: Boundary.height * rowIndex //pozycja y mnożona jest przez index, aby stworzyć nowy boundary pod poprzednim
+                },
+                image: createImage("./img/pipeCorner3.png") // przekazujemy obraz rury
+            })
+            );
+                break
+
+                case "4": 
+            boundaries.push(
+                new Boundary({
+                position: {
+                    x: Boundary.width * symbolIndex,
+                    y: Boundary.height * rowIndex //pozycja y mnożona jest przez index, aby stworzyć nowy boundary pod poprzednim
+                },
+                image: createImage("./img/pipeCorner4.png") // przekazujemy obraz rury
+            })
+            );
+                break
+
+                case "b": 
+                boundaries.push(
+                    new Boundary({
+                    position: {
+                        x: Boundary.width * symbolIndex,
+                        y: Boundary.height * rowIndex //pozycja y mnożona jest przez index, aby stworzyć nowy boundary pod poprzednim
+                    },
+                    image: createImage("./img/block.png") // przekazujemy obraz rury
+                })
+                );
+                    break
     }
 })
 })
