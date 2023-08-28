@@ -612,7 +612,9 @@ function animate() {
         const collisions = [];
         //wykrywanie kolizji ducha z boundaries
         boundaries.forEach(boundary => {
-            if (circleCollidesWithRectangle({
+            if (
+                !collisions.includes("right") && 
+                circleCollidesWithRectangle({
                 circle: {...ghost,
                     velocity: {
                         x: 5,
@@ -622,9 +624,52 @@ function animate() {
                 rectangle: boundary
             }) 
                ) {
-                collisions.push ('right');
+                collisions.push ("right");
+               }
+               if (
+                !collisions.includes("left") && 
+                circleCollidesWithRectangle({
+                circle: {...ghost,
+                    velocity: {
+                        x: -5,
+                        y: 0
+                    }
+                },
+                rectangle: boundary
+            }) 
+               ) {
+                collisions.push ("left");
+               }
+               if (
+                !collisions.includes("up") && 
+                circleCollidesWithRectangle({
+                circle: {...ghost,
+                    velocity: {
+                        x: 0,
+                        y: -5
+                    }
+                },
+                rectangle: boundary
+            }) 
+               ) {
+                collisions.push ("up");
+               }
+               if (
+                !collisions.includes("down") && 
+                circleCollidesWithRectangle({
+                circle: {...ghost,
+                    velocity: {
+                        x: 0,
+                        y: 5
+                    }
+                },
+                rectangle: boundary
+            }) 
+               ) {
+                collisions.push ("down");
                }
         })
+
     })
 };
 
