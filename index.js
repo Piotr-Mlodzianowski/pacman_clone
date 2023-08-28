@@ -371,7 +371,7 @@ const ghosts = [
         },
         velocity: {
             x: 0,
-            y: -Ghost.speed
+            y: Ghost.speed
         },
         color: "orange"
     }),
@@ -382,7 +382,7 @@ const ghosts = [
         },
         velocity: {
             x: 0,
-            y: Ghost.speed
+            y: -Ghost.speed
         },
         color: "blue"
     }),    new Ghost({
@@ -400,11 +400,13 @@ const ghosts = [
 // ruch bohaterem
 
 function circleCollidesWithRectangle({circle, rectangle}) {
+    //Aby poprawnie działoło wykrywanie kolizji należy uwzględnić odległość między postacią (także duchem) a widoczną granicą, Boundary.widht / 2 ustawia nas na środku postaci, nastęnie odejmujemy radious i mamy odległość między granicą a postacią. Odejmujemy 1px, żeby zrobić mały odstęp między
+    const padding = Boundary.width / 2 - circle.radius - 1;
     return (
-        circle.position.y - circle.radius + circle.velocity.y <= rectangle.position.y + rectangle.height && 
-            circle.position.x + circle.radius + circle.velocity.x >= rectangle.position.x &&
-            circle.position.y + circle.radius + circle.velocity.y >= rectangle.position.y &&
-            circle.position.x - circle.radius + circle.velocity.x <= rectangle.position.x + rectangle.width
+        circle.position.y - circle.radius + circle.velocity.y <= rectangle.position.y + rectangle.height + padding && 
+            circle.position.x + circle.radius + circle.velocity.x >= rectangle.position.x - padding &&
+            circle.position.y + circle.radius + circle.velocity.y >= rectangle.position.y - padding &&
+            circle.position.x - circle.radius + circle.velocity.x <= rectangle.position.x + rectangle.width + padding
     )
 }
 
