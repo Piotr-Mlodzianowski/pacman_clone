@@ -333,6 +333,7 @@ class Ghost {
         this.velocity = velocity; 
         this.radius = 15;
         this.color = color;
+        this.prevCollisions = [];
     }
 
     draw() {
@@ -612,6 +613,7 @@ function animate() {
         const collisions = [];
         //wykrywanie kolizji ducha z boundaries
         boundaries.forEach(boundary => {
+            //wykrycie jaka jest aktualna kolizja
             if (
                 !collisions.includes("right") && 
                 circleCollidesWithRectangle({
@@ -670,6 +672,57 @@ function animate() {
                }
         })
 
+        if (collisions.length > ghost.prevCollisions.length) {
+            ghost.prevCollisions = collisions;
+
+        }
+
+        // w sytucaji gdy czawartość collisions nie jest równa zawartosci prevCollisions tworzona jest zmienna pathways, która przechowuje możliwe kierunki ruchu czyli takie z którymi nie ma kolizji. W pathways zostawiamy tylko te wartości prevCollisions które nie znajdują się w collisions
+        if (JSON.stringify(collisions) !== JSON.stringify(ghost.prevCollisions)) {
+
+            //wykrywamy w którą stronę porusza się duch
+            if (ghost.velocity.x > 0) {
+                ghost.prevCollisions.push("right");
+            } else if (ghost.velocity.x < 0) {
+                ghost.prevCollisions.push("left");
+            } else if (ghost.velocity.y < 0) {
+                ghost.prevCollisions.push("up");
+            } else if (ghost.velocity.y > 0) {
+                ghost.prevCollisions.push("down");
+            }
+
+            const pathways = ghost.prevCollisions.filter(collision => {
+                return !collisions.includes(collision);
+            });
+            
+            // direction to kierunek w którym poruszymy ducha, bedzie to przypadkowo wybrana wartość z tablicy pathways
+            const direction = pathways[Math.floor(Math.random() * pathways.length)];
+
+            // switch który zmienia wartość kierunku ruchu ducha w zależności od wylosowanej wartości  direction
+            switch(direction) {
+                case "down": 
+                ghost.velocity.y = 5;
+                ghost.velocity.x = 0;
+                break;
+
+                case "up": 
+                ghost.velocity.y = -5;
+                ghost.velocity.x = 0;
+                break;
+
+                case "right": 
+                ghost.velocity.y = 0;
+                ghost.velocity.x = 5;
+                break;
+
+                case "left": 
+                ghost.velocity.y = 0;
+                ghost.velocity.x = -5;
+                break;
+            }
+
+            ghost.prevCollisions = [];
+        }
     })
 };
 
