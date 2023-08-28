@@ -488,8 +488,10 @@ let lastKey = "";
 
 // animacja bohatera
 
+let animationId;
+
 function animate() {
-    requestAnimationFrame(animate); //metoda objektu window
+    animationId = requestAnimationFrame(animate); //metoda objektu window
     c.clearRect(0, 0, canvas.width, canvas.height); // metoda czyści canvas przy każdej klatce animacji (0 to początkowa pozycja x oraz y, czościmy całą wysokość i całą szerokość canvas)
 
     if (keys.w.pressed && lastKey === "w") {
@@ -613,6 +615,17 @@ function animate() {
     //rysowanie duchów
     ghosts.forEach(ghost => {
         ghost.update();
+
+        //kolizja ducha z graczem
+        if (
+            Math.hypot(
+                ghost.position.x - player.position.x, 
+                ghost.position.y - player.position.y)
+                <
+                ghost.radius + player.radius
+            ) {
+                cancelAnimationFrame(animationId);
+            }
 
         const collisions = [];
         //wykrywanie kolizji ducha z boundaries
