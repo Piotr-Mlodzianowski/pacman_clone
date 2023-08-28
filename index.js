@@ -406,6 +406,13 @@ window.addEventListener("keyup", ({key}) => {
     }
 });
 
+//Score
+const scoreEl = document.querySelector(".score--points");
+let score = 0;
+
+
+
+
 let lastKey = "";
 
 // animacja bohatera
@@ -510,6 +517,8 @@ for (let i = pellets.length - 1; 0 < i; i--) {
                 pellet.radius + player.radius
             ) {
                 pellets.splice(i, 1);
+                score += 10; // powiększa score o  10
+                scoreEl.innerHTML = score; // aktualizuje zawartość elementu score o nową wartość score
             };
     };
 
