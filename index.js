@@ -325,6 +325,75 @@ const player = new Player({
 
 player.draw();
 
+// Duchy
+
+class Ghost {
+    constructor({position, velocity, color = 'red'}) {
+        this.position = position;
+        this.velocity = velocity; 
+        this.radius = 15;
+        this.color = color;
+    }
+
+    draw() {
+        c.beginPath() //canvas method
+        c.arc(this.position.x, this.position.y, this.radius, 0 , Math.PI *2); // jednostka radian, 0 to punkt startowy rysowania koła, PI w radianach to połowa koła więc *2 to całe koło
+        c.fillStyle = this.color;
+        c.fill();
+        c.closePath();
+    }
+
+    update() {
+        this.draw();
+        this.position.x += this.velocity.x;  // nowa wartość pozycji x powiekszona o velocity po naciśnięciu przycisku
+        this.position.y += this.velocity.y;
+    }
+}
+
+const ghosts = [
+    new Ghost({
+        position: {
+            x: Boundary.width * 4 + Boundary.width / 2, // * 6 przesuwa pozycję ducha o 6 pozycji w prawo
+        y: Boundary.height * 5 + Boundary.height / 2
+        },
+        velocity: {
+            x: 0,
+            y: 0
+        }
+    }),
+    new Ghost({
+        position: {
+            x: Boundary.width * 4 + Boundary.width / 2, // * 6 przesuwa pozycję ducha o 6 pozycji w prawo
+        y: Boundary.height * 7 + Boundary.height / 2
+        },
+        velocity: {
+            x: 0,
+            y: 0
+        },
+        color: "orange"
+    }),
+    new Ghost({
+        position: {
+            x: Boundary.width * 6 + Boundary.width / 2, // * 6 przesuwa pozycję ducha o 6 pozycji w prawo
+        y: Boundary.height * 5 + Boundary.height / 2
+        },
+        velocity: {
+            x: 0,
+            y: 0
+        },
+        color: "blue"
+    }),    new Ghost({
+        position: {
+            x: Boundary.width * 6 + Boundary.width / 2, // * 6 przesuwa pozycję ducha o 6 pozycji w prawo
+        y: Boundary.height * 7 + Boundary.height / 2
+        },
+        velocity: {
+            x: 0,
+            y: 0
+        }, color: "pink"
+    })
+];
+
 // ruch bohaterem
 
 function circleCollidesWithRectangle({circle, rectangle}) {
@@ -409,9 +478,6 @@ window.addEventListener("keyup", (e) => {
 //Score
 const scoreEl = document.querySelector(".score--points");
 let score = 0;
-
-
-
 
 let lastKey = "";
 
@@ -503,7 +569,7 @@ function animate() {
     // rysowanie boundaries i pellets na podstawie zawortości tablic boundaries i oraz pellets
 
     //iterujemy po tablicy od tyłu, ma to na celu powstrzymanie migania pigułek przy odejmowaniu kolejnych z tablicy, ponieważ wtedy nie zmieniają się pozycje elementów tablicy
-for (let i = pellets.length - 1; 0 < i; i--) {
+    for (let i = pellets.length - 1; 0 < i; i--) {
     const pellet = pellets[i];
         pellet.draw();
     
@@ -538,6 +604,28 @@ for (let i = pellets.length - 1; 0 < i; i--) {
     });
 
     player.update();
+
+    //rysowanie duchów
+    ghosts.forEach(ghost => {
+        ghost.update();
+
+        const collisions = [];
+        //wykrywanie kolizji ducha z boundaries
+        boundaries.forEach(boundary => {
+            if (circleCollidesWithRectangle({
+                circle: {...ghost,
+                    velocity: {
+                        x: 5,
+                        y: 0
+                    }
+                },
+                rectangle: boundary
+            }) 
+               ) {
+                collisions.push ('right');
+               }
+        })
+    })
 };
 
 animate();
