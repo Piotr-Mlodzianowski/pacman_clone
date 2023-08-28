@@ -495,12 +495,26 @@ function animate() {
 
     // rysowanie boundaries i pellets na podstawie zawortości tablic boundaries i oraz pellets
 
-pellets.forEach(pellet => {
-    pellet.draw()
-})
+    //iterujemy po tablicy od tyłu, ma to na celu powstrzymanie migania pigułek przy odejmowaniu kolejnych z tablicy, ponieważ wtedy nie zmieniają się pozycje elementów tablicy
+for (let i = pellets.length - 1; 0 < i; i--) {
+    const pellet = pellets[i];
+        pellet.draw();
+    
+        //wykrywanie kolizji
+        //Math.hypot - odstęp między środkiem gracza a środkie pigułki w () różnica miedzy 2 pozycjami x oraz 2 pozycjami y
+        if (
+            Math.hypot(
+                pellet.position.x - player.position.x, 
+                pellet.position.y - player.position.y)
+                <
+                pellet.radius + player.radius
+            ) {
+                pellets.splice(i, 1);
+            };
+    };
 
     boundaries.forEach((boundary) => {
-        boundary.draw()
+        boundary.draw();
 
         // wykrywanie kolizji
         //player.position.y - player.radius wyznacza górę bohatera
@@ -511,10 +525,10 @@ pellets.forEach(pellet => {
             ) {
                 player.velocity.x = 0;
                 player.velocity.y = 0;
-            }
+            };
     });
 
     player.update();
-}
+};
 
 animate();
