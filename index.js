@@ -34,14 +34,20 @@ class Boundary {
 
 // dla znaku "-, |, 1, 2, 3, 4, b" stwórz boundry
 const map = [
-    ["1", "-", "-", "-", "-", "-", "2"],
-    ["|", " ", " ", " ", " ", " ", "|"],
-    ["|", " ", "b", " ", "b", " ", "|"],
-    ["|", " ", " ", " ", " ", " ", "|"],
-    ["|", " ", "b", " ", "b", " ", "|"],
-    ["|", " ", " ", " ", " ", " ", "|"],
-    ["4", "-", "-", "-", "-", "-", "3"]
-];
+    ['1', '-', '-', '-', '-', '-', '-', '-', '-', '-', '2'],
+    ['|', '.', '.', '.', '.', '.', '.', '.', '.', '.', '|'],
+    ['|', '.', 'b', '.', '[', '7', ']', '.', 'b', '.', '|'],
+    ['|', '.', '.', '.', '.', '_', '.', '.', '.', '.', '|'],
+    ['|', '.', '[', ']', '.', '.', '.', '[', ']', '.', '|'],
+    ['|', '.', '.', '.', '.', '^', '.', '.', '.', '.', '|'],
+    ['|', '.', 'b', '.', '[', '+', ']', '.', 'b', '.', '|'],
+    ['|', '.', '.', '.', '.', '_', '.', '.', '.', '.', '|'],
+    ['|', '.', '[', ']', '.', '.', '.', '[', ']', '.', '|'],
+    ['|', '.', '.', '.', '.', '^', '.', '.', '.', '.', '|'],
+    ['|', '.', 'b', '.', '[', '5', ']', '.', 'b', '.', '|'],
+    ['|', '.', '.', '.', '.', '.', '.', '.', '.', 'p', '|'],
+    ['4', '-', '-', '-', '-', '-', '-', '-', '-', '-', '3']
+  ]
 
 const boundaries = [];
 
@@ -142,6 +148,122 @@ row.forEach((symbol, symbolIndex) => {
                 })
                 );
                     break
+
+                    case '[':
+        boundaries.push(
+          new Boundary({
+            position: {
+              x: Boundary.width * symbolIndex,
+              y: Boundary.height * rowIndex
+            },
+            image: createImage('./img/capLeft.png')
+          })
+        )
+        break
+
+        case ']':
+            boundaries.push(
+              new Boundary({
+                position: {
+                    x: Boundary.width * symbolIndex,
+                    y: Boundary.height * rowIndex
+                },
+                image: createImage('./img/capRight.png')
+              })
+            )
+            break
+          case '_':
+            boundaries.push(
+              new Boundary({
+                position: {
+                    x: Boundary.width * symbolIndex,
+                    y: Boundary.height * rowIndex
+                },
+                image: createImage('./img/capBottom.png')
+              })
+            )
+            break
+          case '^':
+            boundaries.push(
+              new Boundary({
+                position: {
+                    x: Boundary.width * symbolIndex,
+                    y: Boundary.height * rowIndex
+                },
+                image: createImage('./img/capTop.png')
+              })
+            )
+            break
+          case '+':
+            boundaries.push(
+              new Boundary({
+                position: {
+                    x: Boundary.width * symbolIndex,
+                    y: Boundary.height * rowIndex
+                },
+                image: createImage('./img/pipeCross.png')
+              })
+            )
+            break
+          case '5':
+            boundaries.push(
+              new Boundary({
+                position: {
+                    x: Boundary.width * symbolIndex,
+                    y: Boundary.height * rowIndex
+                },
+                color: 'blue',
+                image: createImage('./img/pipeConnectorTop.png')
+              })
+            )
+            break
+          case '6':
+            boundaries.push(
+              new Boundary({
+                position: {
+                    x: Boundary.width * symbolIndex,
+                    y: Boundary.height * rowIndex
+                },
+                color: 'blue',
+                image: createImage('./img/pipeConnectorRight.png')
+              })
+            )
+            break
+          case '7':
+            boundaries.push(
+              new Boundary({
+                position: {
+                    x: Boundary.width * symbolIndex,
+                    y: Boundary.height * rowIndex
+                },
+                color: 'blue',
+                image: createImage('./img/pipeConnectorBottom.png')
+              })
+            )
+            break
+          case '8':
+            boundaries.push(
+              new Boundary({
+                position: {
+                    x: Boundary.width * symbolIndex,
+                    y: Boundary.height * rowIndex
+                },
+                image: createImage('./img/pipeConnectorLeft.png')
+              })
+            )
+            break
+            
+     //       case '.':
+     //   pellets.push(
+     //     new Pellet({
+     //       position: {
+     //         x: j * Boundary.width + Boundary.width / 2,
+     //         y: i * Boundary.height + Boundary.height / 2
+     //       }
+     //     })
+     //   )
+     //   break
+            
     }
 })
 })
