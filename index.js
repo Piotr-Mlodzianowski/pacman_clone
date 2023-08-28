@@ -7,9 +7,6 @@ const c = canvas.getContext("2d"); // CanvasRenderingContext2D
 canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;
 
-
-
-
 console.log(canvas);
 console.log(c);
 
@@ -21,7 +18,7 @@ class Boundary {
         this.width = 40;
         this.height = 40;
         this.image = image; // obrazy rur zamiast rysowania kwadratów
-    }
+    };
 
     // funkcja rysująca boundry
     draw() {
@@ -29,8 +26,26 @@ class Boundary {
         //c.fillRect(this.position.x, this.position.y, this.width, this.height);
 
         c.drawImage(this.image, this.position.x, this.position.y)
-    }
-}
+    };
+};
+
+    // klasa dla pigułek do zbierania
+class Pellet {
+    constructor({position}) {
+        this.position = position;
+        this.radius = 3;
+    };
+
+    draw() {
+        c.beginPath() //canvas method
+        c.arc(this.position.x, this.position.y, this.radius, 0 , Math.PI *2); // jednostka radian, 0 to punkt startowy rysowania koła, PI w radianach to połowa koła więc *2 to całe koło
+        c.fillStyle = "white";
+        c.fill();
+        c.closePath();
+    };
+};
+
+
 
 // dla znaku "-, |, 1, 2, 3, 4, b" stwórz boundry
 const map = [
@@ -47,15 +62,16 @@ const map = [
     ['|', '.', 'b', '.', '[', '5', ']', '.', 'b', '.', '|'],
     ['|', '.', '.', '.', '.', '.', '.', '.', '.', 'p', '|'],
     ['4', '-', '-', '-', '-', '-', '-', '-', '-', '-', '3']
-  ]
+  ];
 
 const boundaries = [];
+const pellets = [];
 
 
 function createImage(src) {
-    const image = new Image()
-    image.src = src
-    return image
+    const image = new Image();
+    image.src = src;
+    return image;
 }
 
 // objekt Image dla obrazu poziomej rury
@@ -150,13 +166,13 @@ row.forEach((symbol, symbolIndex) => {
                     break
 
                     case '[':
-        boundaries.push(
-          new Boundary({
-            position: {
-              x: Boundary.width * symbolIndex,
-              y: Boundary.height * rowIndex
-            },
-            image: createImage('./img/capLeft.png')
+                boundaries.push(
+                    new Boundary({
+                    position: {
+                         x: Boundary.width * symbolIndex,
+                        y: Boundary.height * rowIndex
+                    },
+                image: createImage('./img/capLeft.png')
           })
         )
         break
@@ -253,20 +269,20 @@ row.forEach((symbol, symbolIndex) => {
             )
             break
             
-     //       case '.':
-     //   pellets.push(
-     //     new Pellet({
-     //       position: {
-     //         x: j * Boundary.width + Boundary.width / 2,
-     //         y: i * Boundary.height + Boundary.height / 2
-     //       }
-     //     })
-     //   )
-     //   break
+            case '.':
+        pellets.push(
+          new Pellet({
+            position: {
+              x: symbolIndex * Boundary.width + Boundary.width / 2, // wyśrodkowanie kropki
+              y: rowIndex * Boundary.height + Boundary.height / 2 // wyśrodkowanie kropki
+            }
+          })
+        )
+       break
             
-    }
-})
-})
+    };
+});
+});
 
 
 
@@ -476,6 +492,13 @@ function animate() {
             }
     }
 
+
+    // rysowanie boundaries i pellets na podstawie zawortości tablic boundaries i oraz pellets
+
+pellets.forEach(pellet => {
+    pellet.draw()
+})
+
     boundaries.forEach((boundary) => {
         boundary.draw()
 
@@ -495,5 +518,3 @@ function animate() {
 }
 
 animate();
-
-
