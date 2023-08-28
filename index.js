@@ -328,12 +328,14 @@ player.draw();
 // Duchy
 
 class Ghost {
+    static speed = 2;
     constructor({position, velocity, color = 'red'}) {
         this.position = position;
         this.velocity = velocity; 
         this.radius = 15;
         this.color = color;
         this.prevCollisions = [];
+        this.speed = 2;
     }
 
     draw() {
@@ -358,7 +360,7 @@ const ghosts = [
         y: Boundary.height * 5 + Boundary.height / 2
         },
         velocity: {
-            x: 0,
+            x: -Ghost.speed,
             y: 0
         }
     }),
@@ -369,7 +371,7 @@ const ghosts = [
         },
         velocity: {
             x: 0,
-            y: 0
+            y: -Ghost.speed
         },
         color: "orange"
     }),
@@ -380,7 +382,7 @@ const ghosts = [
         },
         velocity: {
             x: 0,
-            y: 0
+            y: Ghost.speed
         },
         color: "blue"
     }),    new Ghost({
@@ -389,7 +391,7 @@ const ghosts = [
         y: Boundary.height * 7 + Boundary.height / 2
         },
         velocity: {
-            x: 0,
+            x: Ghost.speed,
             y: 0
         }, color: "pink"
     })
@@ -619,7 +621,7 @@ function animate() {
                 circleCollidesWithRectangle({
                 circle: {...ghost,
                     velocity: {
-                        x: 5,
+                        x: ghost.speed,
                         y: 0
                     }
                 },
@@ -633,7 +635,7 @@ function animate() {
                 circleCollidesWithRectangle({
                 circle: {...ghost,
                     velocity: {
-                        x: -5,
+                        x: -ghost.speed,
                         y: 0
                     }
                 },
@@ -648,7 +650,7 @@ function animate() {
                 circle: {...ghost,
                     velocity: {
                         x: 0,
-                        y: -5
+                        y: -ghost.speed
                     }
                 },
                 rectangle: boundary
@@ -662,7 +664,7 @@ function animate() {
                 circle: {...ghost,
                     velocity: {
                         x: 0,
-                        y: 5
+                        y: ghost.speed
                     }
                 },
                 rectangle: boundary
@@ -701,23 +703,23 @@ function animate() {
             // switch który zmienia wartość kierunku ruchu ducha w zależności od wylosowanej wartości  direction
             switch(direction) {
                 case "down": 
-                ghost.velocity.y = 5;
+                ghost.velocity.y = ghost.speed;
                 ghost.velocity.x = 0;
                 break;
 
                 case "up": 
-                ghost.velocity.y = -5;
+                ghost.velocity.y = -ghost.speed;
                 ghost.velocity.x = 0;
                 break;
 
                 case "right": 
                 ghost.velocity.y = 0;
-                ghost.velocity.x = 5;
+                ghost.velocity.x = ghost.speed;
                 break;
 
                 case "left": 
                 ghost.velocity.y = 0;
-                ghost.velocity.x = -5;
+                ghost.velocity.x = -ghost.speed;
                 break;
             }
 
