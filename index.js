@@ -382,8 +382,8 @@ window.addEventListener("keydown", (e) => {
     }
 })
 
-window.addEventListener("keyup", ({key}) => {
-    switch (key) {
+window.addEventListener("keyup", (e) => {
+    switch (e.key) {
         case "w": 
         keys.w.pressed = false;
         e.preventDefault();
