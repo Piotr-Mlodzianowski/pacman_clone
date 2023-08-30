@@ -6,7 +6,12 @@ Dodałem informację o wygranej i przegranej oraz odświerzenie strony po 5 seku
 
 Aplikacja napisana w języku JavaScript z wykorzystaniem Canvas API.
 
-Mechanika gry:
-1. Poruszanie bohaterem za pomocą klawiszy W A S D.
-2. Zwycięstwo następuje po zebraniu wszystkich białych pigułek.
-3. Zderzenie z przeciwnikiem powoduje zatrzymanie gry. 
+Poruszanie bohaterem za pomocą klawiszy W A S D.
+
+Gra posiada rozbudowany kod wykrywania kolizji. 
+Wykrycie kolizji gracza z przeciwnikiem powoduje zatrzymanie gry i informację o przegranej.
+Kolizja gracza z pigułkami rozłożonymi na mapie powoduje dodanie 10 punktów do ogólnego wyniku. Zebranie wszystkich pigułek powoduje zatrzymanie gry i informację o wygranej.
+Kolizja gracza z pigułką power-up na 5 sekund włącza tryb "przestraszonych przeciwników", kolizja z przeciwnikiem w tym trybie podowuje usunięcie przeciwnika z planszy.
+Ścieżki po której poruszają się przeciwnicy wybierane są losowo na podstawie wykrywanych kolizji, nie wykrycie kolizji w danym kierunku powoduje przekazanie informacji o otwartych kierunkach i wylosowanie jednej z możliwości.
+
+W przypadku wygranej bądż przegranej po 5 sekundach następuje odświerzenie strony.
