@@ -45,6 +45,22 @@ class Pellet {
     };
 };
 
+    // klasa dla Power-up do zbierania
+    class PowerUp {
+        constructor({position}) {
+            this.position = position;
+            this.radius = 8;
+        };
+    
+        draw() {
+            c.beginPath() //canvas method
+            c.arc(this.position.x, this.position.y, this.radius, 0 , Math.PI *2); // jednostka radian, 0 to punkt startowy rysowania koła, PI w radianach to połowa koła więc *2 to całe koło
+            c.fillStyle = "white";
+            c.fill();
+            c.closePath();
+        };
+    };
+    
 
 
 // dla znaku "-, |, 1, 2, 3, 4, b" stwórz boundry
@@ -66,6 +82,7 @@ const map = [
 
 const boundaries = [];
 const pellets = [];
+const powerUps = [];
 
 
 function createImage(src) {
@@ -279,6 +296,17 @@ row.forEach((symbol, symbolIndex) => {
           })
         )
        break
+
+       case 'p':
+        powerUps.push(
+          new PowerUp({
+            position: {
+              x: symbolIndex * Boundary.width + Boundary.width / 2, // wyśrodkowanie power-upa
+              y: rowIndex * Boundary.height + Boundary.height / 2 // wyśrodkowanie power-upa
+            }
+          })
+        )
+       break
             
     };
 });
@@ -336,12 +364,13 @@ class Ghost {
         this.color = color;
         this.prevCollisions = [];
         this.speed = 2;
+        this.scared = false;
     }
 
     draw() {
         c.beginPath() //canvas method
         c.arc(this.position.x, this.position.y, this.radius, 0 , Math.PI *2); // jednostka radian, 0 to punkt startowy rysowania koła, PI w radianach to połowa koła więc *2 to całe koło
-        c.fillStyle = this.color;
+        c.fillStyle = this.scared ? "blue" : this.color;
         c.fill();
         c.closePath();
     }
@@ -576,7 +605,7 @@ function animate() {
     // rysowanie boundaries i pellets na podstawie zawortości tablic boundaries i oraz pellets
 
     //iterujemy po tablicy od tyłu, ma to na celu powstrzymanie migania pigułek przy odejmowaniu kolejnych z tablicy, ponieważ wtedy nie zmieniają się pozycje elementów tablicy
-    for (let i = pellets.length - 1; 0 < i; i--) {
+    for (let i = pellets.length - 1; 0 <= i; i--) {
     const pellet = pellets[i];
         pellet.draw();
     
@@ -594,6 +623,33 @@ function animate() {
                 scoreEl.innerHTML = score; // aktualizuje zawartość elementu score o nową wartość score
             };
     };
+
+    //rysowanie power-up
+    for (let i = powerUps.length - 1; 0 <= i; i--) {
+        const powerUp = powerUps[i];
+        powerUp.draw();
+
+        // kolizja gracza i power-up
+        if (
+            Math.hypot(
+                powerUp.position.x - player.position.x, 
+                powerUp.position.y - player.position.y)
+                <
+                powerUp.radius + player.radius
+            ) {
+                powerUps.splice(i, 1);
+
+                // przestraszone duchy
+                ghosts.forEach(ghost => {
+                    ghost.scared = true;
+
+                    setTimeout(() => {
+                        ghost.scared = false;
+                    }, 3000)
+                })
+            }
+
+    }
 
     boundaries.forEach((boundary) => {
         boundary.draw();
