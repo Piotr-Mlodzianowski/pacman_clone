@@ -525,6 +525,14 @@ function animate() {
     animationId = requestAnimationFrame(animate); //metoda objektu window
     c.clearRect(0, 0, canvas.width, canvas.height); // metoda czyści canvas przy każdej klatce animacji (0 to początkowa pozycja x oraz y, czościmy całą wysokość i całą szerokość canvas)
 
+    
+        // Wygrana
+     if (pellets.length === 0) {
+            messageEl.style = "color: green;"
+            messageEl.innerHTML = "Wygrana";
+            cancelAnimationFrame(animationId);
+     }
+
     if (keys.w.pressed && lastKey === "w") {
         for (let i=0; i , i < boundaries.length; i++) {
             const boundary = boundaries[i]
@@ -811,12 +819,6 @@ function animate() {
             }
 
             ghost.prevCollisions = [];
-        }
-
-        // Wygrana
-        if (pellets.length ===0) {
-            messageEl.style = "color: green;"
-            messageEl.innerHTML="Wygrana";
         }
     })
 };
