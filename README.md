@@ -8,10 +8,12 @@ Aplikacja napisana w języku JavaScript z wykorzystaniem Canvas API.
 
 Poruszanie bohaterem za pomocą klawiszy W A S D.
 
-Gra posiada rozbudowany kod wykrywania kolizji. 
-1. Wykrycie kolizji gracza z przeciwnikiem powoduje zatrzymanie gry i informację o przegranej.
-2. Kolizja gracza z pigułkami rozłożonymi na mapie powoduje dodanie 10 punktów do ogólnego wyniku. Zebranie wszystkich pigułek powoduje zatrzymanie gry i informację o wygranej.
-3. Kolizja gracza z pigułką power-up na 5 sekund włącza tryb "przestraszonych przeciwników", kolizja z przeciwnikiem w tym trybie podowuje usunięcie przeciwnika z planszy oraz dodanie 50 punktów do ogólnego wyniku.
-4. Ścieżki po której poruszają się przeciwnicy wybierane są losowo na podstawie wykrywanych kolizji, nie wykrycie kolizji w danym kierunku powoduje przekazanie informacji o otwartych kierunkach i wylosowanie jednej z możliwości.
+Wykrycie kolizji gracza z przeciwnikiem powoduje zatrzymanie gry i informację o przegranej.
+
+Kolizja gracza z pigułkami rozłożonymi na mapie powoduje dodanie 10 punktów do ogólnego wyniku. Zebranie wszystkich pigułek powoduje zatrzymanie gry i informację o wygranej.
+
+Kolizja gracza z pigułką power-up na 5 sekund włącza tryb "przestraszonych przeciwników", kolizja z przeciwnikiem w tym trybie podowuje usunięcie przeciwnika z planszy oraz dodanie 50 punktów do ogólnego wyniku.
+
+Ścieżki po której poruszają się przeciwnicy wybierane są losowo na podstawie wykrywanych kolizji, nie wykrycie kolizji w danym kierunku powoduje przekazanie informacji o otwartych kierunkach i wylosowanie jednej z możliwości.
 
 W przypadku wygranej bądż przegranej po 5 sekundach następuje odświerzenie strony.
