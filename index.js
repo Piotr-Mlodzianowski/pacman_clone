@@ -706,6 +706,8 @@ function animate() {
 
                 if(ghost.scared) {
                         ghosts.splice(i, 1);
+                        score += 50;
+                        scoreEl.innerHTML = score;
 
                     } else {
                         messageEl.style = "color: red;"
