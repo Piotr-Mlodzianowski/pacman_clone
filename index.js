@@ -645,11 +645,33 @@ function animate() {
 
                     setTimeout(() => {
                         ghost.scared = false;
-                    }, 3000)
+                    }, 5000)
                 })
             }
 
     }
+
+    for (let i = ghosts.length - 1; 0 <= i; i--) {
+        const ghost = ghosts[i];
+            //kolizja ducha z graczem
+            if (
+                Math.hypot(
+                    ghost.position.x - player.position.x, 
+                    ghost.position.y - player.position.y)
+                    <
+                    ghost.radius + player.radius 
+                ) {
+
+                if(ghost.scared) {
+                        ghosts.splice(i, 1);
+                        
+
+                    } else {
+                        cancelAnimationFrame(animationId);
+                    }
+
+                }
+            }
 
     boundaries.forEach((boundary) => {
         boundary.draw();
@@ -672,16 +694,7 @@ function animate() {
     ghosts.forEach(ghost => {
         ghost.update();
 
-        //kolizja ducha z graczem
-        if (
-            Math.hypot(
-                ghost.position.x - player.position.x, 
-                ghost.position.y - player.position.y)
-                <
-                ghost.radius + player.radius
-            ) {
-                cancelAnimationFrame(animationId);
-            }
+
 
         const collisions = [];
         //wykrywanie kolizji ducha z boundaries
