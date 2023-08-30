@@ -10,6 +10,8 @@ canvas.width = window.innerWidth;
 console.log(canvas);
 console.log(c);
 
+const messageEl = document.querySelector(".message");
+
 class Boundary {
     static width = 40;
     static height = 40;
@@ -664,9 +666,10 @@ function animate() {
 
                 if(ghost.scared) {
                         ghosts.splice(i, 1);
-                        
 
                     } else {
+                        messageEl.style = "color: red;"
+                        messageEl.innerHTML="Gra skończona"
                         cancelAnimationFrame(animationId);
                     }
 
@@ -808,6 +811,12 @@ function animate() {
             }
 
             ghost.prevCollisions = [];
+        }
+
+        // Wygrana
+        if (pellets.length ===0) {
+            messageEl.style = "color: green;"
+            messageEl.innerHTML="Wygrana";
         }
     })
 };
