@@ -1,7 +1,6 @@
 Aplikacja została napisana podążając za tutorialem https://chriscourses.com/courses/pacman/videos/create-a-pacman-game
 
-Dodałem informację o wygranej i przegranej oraz odświerzenie strony po 5 sekundach.
-50 punktów dodawane przy kolizji z przeciwnikie w trakcie trwania power-up.
+Dodałem informację o wygranej i przegranej oraz odświerzenie strony po 5 sekundach, 50 punktów dodawane do wyniku przy kolizji z przeciwnikiem w trakcie trwania power-up.
 
  # Pacman clone
 
