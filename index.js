@@ -325,11 +325,15 @@ class Player {
         this.position = position;
         this.velocity = velocity; // prędkość, do ruchów bohatera
         this.radius = 15;
+        this.radians = 0.75;
+        this.openRate = 0.12;
     }
 
     draw() {
         c.beginPath() //canvas method
-        c.arc(this.position.x, this.position.y, this.radius, 0 , Math.PI *2); // jednostka radian, 0 to punkt startowy rysowania koła, PI w radianach to połowa koła więc *2 to całe koło
+        //c.arc(this.position.x, this.position.y, this.radius, 0 , Math.PI * 2); // jednostka radian, 0 to punkt startowy rysowania koła, PI w radianach to połowa koła więc *2 to całe koło
+        c.arc(this.position.x, this.position.y, this.radius, this.radians , Math.PI * 2 - this.radians); // to samo tylko z małym wcięciem
+        c.lineTo(this.position.x, this.position.y) // dodanie linii do punku wcięcia
         c.fillStyle = "yellow";
         c.fill();
         c.closePath();
@@ -339,6 +343,13 @@ class Player {
         this.draw();
         this.position.x += this.velocity.x;  // nowa wartość pozycji x powiekszona o velocity po naciśnięciu przycisku
         this.position.y += this.velocity.y;
+
+        // animacja ust bohatera
+        if (this.radians < 0 || this.radians > 0.75)
+            this.openRate = -this.openRate;
+        
+        this.radians += this.openRate; // to nie jest elementem warunku if
+
     }
 }
 
