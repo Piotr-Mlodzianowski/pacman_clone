@@ -1,3 +1,9 @@
+    // velocity.x > 0 - ruch w prawo
+    // velocity.x < 0 - ruch w lewo
+    // velocity.y < 0 - ruch w góre
+    // velocity.y > 0 - ruch w dół
+
+
 const canvas = document.querySelector(".mainCanv");
 const c = canvas.getContext("2d"); // CanvasRenderingContext2D
 // wszystko co będzie wykonywane na zmiennej c to methody wbudowane w canvas
@@ -327,16 +333,25 @@ class Player {
         this.radius = 15;
         this.radians = 0.75;
         this.openRate = 0.12;
+        this.rotation = 0;
     }
 
     draw() {
-        c.beginPath() //canvas method
+        c.save();
+
+        c.translate(this.position.x, this.position.y);
+        c.rotate(this.rotation);
+        c.translate(-this.position.x, -this.position.y);
+
+        c.beginPath(); //canvas method
         //c.arc(this.position.x, this.position.y, this.radius, 0 , Math.PI * 2); // jednostka radian, 0 to punkt startowy rysowania koła, PI w radianach to połowa koła więc *2 to całe koło
         c.arc(this.position.x, this.position.y, this.radius, this.radians , Math.PI * 2 - this.radians); // to samo tylko z małym wcięciem
         c.lineTo(this.position.x, this.position.y) // dodanie linii do punku wcięcia
         c.fillStyle = "yellow";
         c.fill();
         c.closePath();
+
+        c.restore();
     }
 
     update() {
@@ -832,6 +847,14 @@ function animate() {
             ghost.prevCollisions = [];
         }
     })
+
+    // zmiana kierunku bohatera
+    // Math.PI - 180 stopni
+    // Math.Pi / 2 - 90 stopni
+    if (player.velocity.x > 0) player.rotation = 0;
+    else if (player.velocity.x < 0) player.rotation = Math.PI;
+    else if (player.velocity.y > 0) player.rotation = Math.PI / 2;
+    else if (player.velocity.y < 0) player.rotation = Math.PI * 1.5;
 };
 
 animate();
