@@ -398,7 +398,7 @@ class Ghost {
     draw() {
         c.beginPath() //canvas method
         c.arc(this.position.x, this.position.y, this.radius, 0 , Math.PI *2); // jednostka radian, 0 to punkt startowy rysowania koła, PI w radianach to połowa koła więc *2 to całe koło
-        c.fillStyle = this.scared ? "blue" : this.color;
+        c.fillStyle = this.scared ? "deepskyblue" : this.color;
         c.fill();
         c.closePath();
     }
@@ -543,8 +543,13 @@ let score = 0;
 
 let lastKey = "";
 
-// animacja bohatera
+function reload() {
+    setTimeout (() => {
+        window.location.reload();
+    }, 5000)
+};
 
+// animacja bohatera
 let animationId;
 
 function animate() {
@@ -557,6 +562,7 @@ function animate() {
             messageEl.style = "color: green;"
             messageEl.innerHTML = "Wygrana";
             cancelAnimationFrame(animationId);
+            reload();
      }
 
     if (keys.w.pressed && lastKey === "w") {
@@ -705,6 +711,7 @@ function animate() {
                         messageEl.style = "color: red;"
                         messageEl.innerHTML="Gra skończona"
                         cancelAnimationFrame(animationId);
+                        reload();
                     }
 
                 }
