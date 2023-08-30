@@ -1,5 +1,7 @@
 Aplikacja została napisana podążając za tutorialem https://chriscourses.com/courses/pacman/videos/create-a-pacman-game
 
+Dodałem informację o wygranej i przegranej oraz odświerzenie strony po 5 sekundach.
+
  # Pacman clone
 
 Aplikacja napisana w języku JavaScript z wykorzystaniem Canvas API.
